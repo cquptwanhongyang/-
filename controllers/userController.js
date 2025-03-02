@@ -43,8 +43,30 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const registerUser = async (req, res) => {
+  const { name, role, password } = req.body;
+  try {
+    const user = await User.register(name, role, password);
+    res.status(201).json({ success: true, message: "用户注册成功", user });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const loginUser = async (req, res) => {
+  const { name, password } = req.body;
+  try {
+    const user = await User.login(name, password);
+    res.status(200).json({ success: true, message: "用户登录成功", user });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getUsers,
   addUser,
   deleteUser,
+  registerUser,
+  loginUser,
 };
